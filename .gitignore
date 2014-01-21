@@ -1,0 +1,12 @@
+# IntelliJ IDEA generated files
+.idea
+*.iml
+*.ipr
+*.iws
+
+# Mac OS files
+*.DS_Store
+
+# Maven target files
+cueball-model/target
+cueball-spi/target

@@ -3,6 +3,8 @@ package ir.phsys.coding
 import scala.beans.BeanProperty
 import scala.collection.mutable
 import ir.phsys.util.SentenceUtils._
+import scala.tools.nsc.io.Directory
+import scala.reflect.io.File
 
 
 /**
@@ -21,11 +23,12 @@ object Crawler {
     }
   }
 
-  def generateIndexedWordMapFromFile(path: String): Unit = {
+  def generateIndexedWordMapFromFile(file: File): Unit = {
     import scala.io.Source
+
     val strbuilder = new StringBuilder
 
-    Source.fromFile(path).getLines().foreach {
+    Source.fromInputStream(file.inputStream()).getLines().foreach {
       case x => strbuilder.append(x)
     }
 
@@ -33,6 +36,11 @@ object Crawler {
       case x => generateIndexedWordMap(x.trim)
     }
   }
+
+  def generateIndexedWordMapFromDir(dir: Directory): Unit = {
+    (dir deepFiles) foreach generateIndexedWordMapFromFile
+  }
+
 
   def generateIndexedWordMapFromWikipedia(url: String): Unit = {
     import scala.io.Source

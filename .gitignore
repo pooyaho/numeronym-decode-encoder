@@ -8,5 +8,4 @@
 *.DS_Store
 
 # Maven target files
-cueball-model/target
-cueball-spi/target
+./target

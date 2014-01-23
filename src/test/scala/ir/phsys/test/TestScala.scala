@@ -5,7 +5,7 @@ import ir.phsys.coding.{EncoderDecoder, Crawler}
 import edu.arizona.sista.processors.Processor
 import edu.arizona.sista.processors.corenlp.CoreNLPProcessor
 import edu.arizona.sista.processors.struct.DirectedGraphEdgeIterator
-import ir.phsys.util.SentenceUtils._
+import scala.reflect.io.{File, Directory}
 
 /**
  * @author : Пуя Гуссейни
@@ -16,7 +16,7 @@ import ir.phsys.util.SentenceUtils._
 class TestScala extends FunSuite {
   //  val default=mutable.Buffer.empty[String]
   test("Indexize the string") {
-    Crawler.generateIndexedWordMapFromFile("/home/pooya/Desktop/txt")
+    Crawler.generateIndexedWordMapFromFile(File("/home/pooya/Desktop/txt"))
     val map = Crawler.getIndexedWordMap
     (0 to map.keys.max).foreach {
       case x => println(s"index is :$x and value is ${map(x)}")
@@ -85,7 +85,7 @@ class TestScala extends FunSuite {
     val proc: Processor = new CoreNLPProcessor()
 
     // the actual work is done here
-    val doc = proc.annotate("John Smith went to China. He visited Beijing, on January 10th, 2013.")
+    val doc = proc.annotate("My name is Pooya.")
 
     // you are basically done. the rest of this code simply prints out the annotations
 
@@ -154,7 +154,7 @@ class TestScala extends FunSuite {
       str + ":"
     }
 
-    val pattern="(\\ )|(\\.)"
+    val pattern = "(\\ )|(\\.)"
     val tokens = "Hi this is a text".split(pattern).toList
 
     val reduce = tokens.reduce((a, b) => convert(a) + convert(b))
@@ -172,4 +172,23 @@ class TestScala extends FunSuite {
 
 
   }
+
+  test("Test process directory") {
+    Crawler.generateIndexedWordMapFromDir(Directory
+                                          ("/home/pooya/projects/numeronym-decode-encoder/src/main/resources/input"))
+    println(Crawler.getIndexedWordMap.size)
+  }
+
+  import ir.phsys.util.SentenceUtils._
+
+  test("Test separation") {
+    val txt = "THE ADVENTURES OF SHERLOCK HOLMES. Arthur Conan Doyle. Table of contents"
+    txt.tokenizeText() foreach println
+  }
+
+
+  test("Test substring") {
+    assert("Pooya".substring(0, "Pooya".length - 1) == "Pooy")
+  }
+
 }
